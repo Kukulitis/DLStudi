@@ -842,31 +842,45 @@ section { padding: 100px 48px; }
 .form-field select option { background: var(--dark); }
 .form-field textarea { resize: vertical; min-height: 120px; }
 
-/* Date input that only shows the calendar icon */
-.date-field { position: relative; }
-.date-icon-only { cursor: pointer; color: transparent; }
-.date-icon-only::-webkit-datetime-edit-fields-wrapper,
-.date-icon-only::-webkit-datetime-edit-text,
-.date-icon-only::-webkit-datetime-edit-month-field,
-.date-icon-only::-webkit-datetime-edit-day-field,
-.date-icon-only::-webkit-datetime-edit-year-field {
-  display: none;
+.form-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23d4a13d' d='M3 5l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 14px;
+  padding-right: 40px;
 }
-.date-icon-only::-webkit-calendar-picker-indicator {
-  opacity: 1;
+
+/* Date input that only shows the calendar icon, with the real input
+   made fully transparent so it renders identically on every browser
+   (iOS Safari draws its own text inside <input type=date> with no
+   way to hide just the text via CSS) */
+.date-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--black);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
   cursor: pointer;
-  filter: invert(0.7) sepia(1) saturate(5) hue-rotate(5deg);
 }
+.date-icon { font-size: 18px; line-height: 1; filter: grayscale(1) brightness(2) sepia(1) saturate(6) hue-rotate(5deg); }
 .date-display {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
   font-size: 15px;
   color: var(--muted);
   pointer-events: none;
 }
 .date-display.set { color: var(--white); }
+.date-icon-only {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
 
 /* ── FOOTER ── */
 footer {
