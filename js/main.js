@@ -38,6 +38,34 @@ if (navToggle && navLinksList) {
   });
 }
 
+// WhatsApp booking widget
+const waBookBtn = document.getElementById('wa-book-btn');
+if (waBookBtn) {
+  const waDateInput = document.getElementById('wa-date');
+  const waServiceSelect = document.getElementById('wa-service');
+  const waPhoneNumber = '31681984444';
+
+  waDateInput.min = new Date().toISOString().split('T')[0];
+
+  waBookBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    if (!waDateInput.value) {
+      waDateInput.focus();
+      waDateInput.reportValidity?.();
+      return;
+    }
+
+    const formattedDate = new Date(waDateInput.value + 'T00:00:00').toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+    const service = waServiceSelect.value;
+    const message = `Hi, I would like to book a ${service} on ${formattedDate}.`;
+    const waUrl = `https://wa.me/${waPhoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank', 'noopener');
+  });
+}
+
 // Form submit placeholder
 document.querySelector('button.btn-primary').addEventListener('click', () => {
   alert('Booking request sent! We\'ll be in touch within 24 hours.');
