@@ -38,31 +38,74 @@ if (navToggle && navLinksList) {
   });
 }
 
-// WhatsApp booking widget
-const waBookBtn = document.getElementById('wa-book-btn');
-if (waBookBtn) {
-  const waDateInput = document.getElementById('wa-date');
-  const waServiceSelect = document.getElementById('wa-service');
+// Quick booking widget (WhatsApp / Email)
+const bookingSubmitBtn = document.getElementById('booking-submit-btn');
+if (bookingSubmitBtn) {
   const waPhoneNumber = '31681984444';
+  const bookingEmail = 'booking@dlstudija.com';
 
-  waDateInput.min = new Date().toISOString().split('T')[0];
+  const bookingTabs = document.querySelectorAll('.booking-tab');
+  const contactFieldsRow = document.querySelector('.booking-contact-fields');
+  const nameInput = document.getElementById('booking-name');
+  const emailInput = document.getElementById('booking-email');
+  const dateInput = document.getElementById('wa-date');
+  const serviceSelect = document.getElementById('wa-service');
 
-  waBookBtn.addEventListener('click', (e) => {
+  dateInput.min = new Date().toISOString().split('T')[0];
+
+  let bookingMode = 'whatsapp';
+
+  function updateBookingUI() {
+    const isEmail = bookingMode === 'email';
+    contactFieldsRow.hidden = !isEmail;
+    bookingSubmitBtn.innerHTML = isEmail
+      ? '<span class="wa-icon">&#9993;</span> Book via Email'
+      : '<span class="wa-icon">&#9742;</span> Book on WhatsApp';
+  }
+
+  bookingTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      bookingTabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      bookingMode = tab.dataset.mode;
+      updateBookingUI();
+    });
+  });
+
+  updateBookingUI();
+
+  bookingSubmitBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
-    if (!waDateInput.value) {
-      waDateInput.focus();
-      waDateInput.reportValidity?.();
+    if (!dateInput.value) {
+      dateInput.focus();
+      dateInput.reportValidity?.();
+      return;
+    }
+    if (bookingMode === 'email' && (!nameInput.value || !emailInput.value)) {
+      (nameInput.value ? emailInput : nameInput).focus();
+      (nameInput.value ? emailInput : nameInput).reportValidity?.();
       return;
     }
 
-    const formattedDate = new Date(waDateInput.value + 'T00:00:00').toLocaleDateString('en-GB', {
+    const formattedDate = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('en-GB', {
       day: 'numeric', month: 'long', year: 'numeric'
     });
-    const service = waServiceSelect.value;
-    const message = `Hi, I would like to book a ${service} on ${formattedDate}.`;
-    const waUrl = `https://wa.me/${waPhoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(waUrl, '_blank', 'noopener');
+    const service = serviceSelect.value;
+
+    if (bookingMode === 'email') {
+      const subject = `Booking request: ${service}`;
+      const body = `Hi, I would like to book a ${service} on ${formattedDate}.\n\nName: ${nameInput.value}\nEmail: ${emailInput.value}`;
+      window.location.href = `mailto:${bookingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    } else {
+      const message = `Hi, I would like to book a ${service} on ${formattedDate}.`;
+      const waUrl = `https://wa.me/${waPhoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, '_blank', 'noopener');
+    }
   });
 }
 

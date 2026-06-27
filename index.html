@@ -61,15 +61,34 @@
 
 <div class="slash-divider"></div>
 
-<!-- WHATSAPP BOOKING -->
+<!-- QUICK BOOKING -->
 <section id="whatsapp-booking">
   <p class="section-eyebrow reveal">Quick Booking</p>
-  <h2 class="section-title reveal reveal-delay-1">Book on<br>WhatsApp</h2>
+  <h2 class="section-title reveal reveal-delay-1">Book a<br>Slot</h2>
   <p class="section-desc reveal reveal-delay-2" style="margin-bottom: 32px;">
-    Pick a date and a service, then message us directly on WhatsApp — no forms, no waiting.
+    Pick a date and a service, choose how you'd like to reach us, and send the request in one tap.
   </p>
 
+  <div class="booking-tabs reveal reveal-delay-1" role="tablist">
+    <button type="button" class="booking-tab active" data-mode="whatsapp" role="tab" aria-selected="true">
+      <span class="wa-icon">&#9742;</span> WhatsApp
+    </button>
+    <button type="button" class="booking-tab" data-mode="email" role="tab" aria-selected="false">
+      <span class="wa-icon">&#9993;</span> Email
+    </button>
+  </div>
+
   <div class="wa-widget reveal reveal-delay-2">
+    <div class="form-row booking-contact-fields" hidden>
+      <div class="form-field">
+        <label for="booking-name">Name</label>
+        <input type="text" id="booking-name" placeholder="Jānis Bērziņš">
+      </div>
+      <div class="form-field">
+        <label for="booking-email">Email</label>
+        <input type="email" id="booking-email" placeholder="email@example.com">
+      </div>
+    </div>
     <div class="form-row">
       <div class="form-field">
         <label for="wa-date">Preferred Date</label>
@@ -84,7 +103,7 @@
         </select>
       </div>
     </div>
-    <a href="#" id="wa-book-btn" class="btn-primary wa-btn" target="_blank" rel="noopener">
+    <a href="#" id="booking-submit-btn" class="btn-primary wa-btn" rel="noopener">
       <span class="wa-icon">&#9742;</span> Book on WhatsApp
     </a>
   </div>
