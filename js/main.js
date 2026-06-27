@@ -53,6 +53,25 @@ if (bookingSubmitBtn) {
 
   dateInput.min = new Date().toISOString().split('T')[0];
 
+  const dateDisplay = document.getElementById('wa-date-display');
+  if (dateDisplay) {
+    const updateDateDisplay = () => {
+      if (dateInput.value) {
+        const formatted = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('en-GB', {
+          day: 'numeric', month: 'short', year: 'numeric'
+        });
+        dateDisplay.textContent = formatted;
+        dateDisplay.classList.add('set');
+      } else {
+        dateDisplay.textContent = 'Select date';
+        dateDisplay.classList.remove('set');
+      }
+    };
+    dateInput.addEventListener('input', updateDateDisplay);
+    dateInput.addEventListener('click', () => dateInput.showPicker?.());
+    updateDateDisplay();
+  }
+
   let bookingMode = 'whatsapp';
 
   function updateBookingUI() {

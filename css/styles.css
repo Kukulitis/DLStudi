@@ -842,6 +842,32 @@ section { padding: 100px 48px; }
 .form-field select option { background: var(--dark); }
 .form-field textarea { resize: vertical; min-height: 120px; }
 
+/* Date input that only shows the calendar icon */
+.date-field { position: relative; }
+.date-icon-only { cursor: pointer; color: transparent; }
+.date-icon-only::-webkit-datetime-edit-fields-wrapper,
+.date-icon-only::-webkit-datetime-edit-text,
+.date-icon-only::-webkit-datetime-edit-month-field,
+.date-icon-only::-webkit-datetime-edit-day-field,
+.date-icon-only::-webkit-datetime-edit-year-field {
+  display: none;
+}
+.date-icon-only::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  cursor: pointer;
+  filter: invert(0.7) sepia(1) saturate(5) hue-rotate(5deg);
+}
+.date-display {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.date-display.set { color: var(--white); }
+
 /* ── FOOTER ── */
 footer {
   background: var(--black);
